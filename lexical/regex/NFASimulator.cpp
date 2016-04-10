@@ -4,10 +4,11 @@
 
 #define _DEBUG_ON_
 
-NFASimulator::NFASimulator() {
+NFASimulator::NFASimulator(bool accept) {
   /* Add one start states: 0 */
   next_state_no = 0;
-  start_state = new NFAState(false, next_state_no++);
+  start_state = new NFAState(accept, next_state_no++);
+  if (accept) accept_state.insert(start_state);
   all_state.insert(start_state);
 }
 
@@ -96,4 +97,23 @@ state_t NFASimulator::get_start_state() {
 
 std::set<state_t> NFASimulator::get_accept_state() {
   return accept_state;
+}
+
+void merge_nfa_and(NFASimulator* nfa1, NFASimulator* nfa2) {
+
+}
+
+void merge_nfa_or(NFASimulator* nfa1, NFASimulator* nfa2) {
+  /* Merge nfa2 to nfa1 */
+  /* Step 1: merge start_state */
+  merge_state(nfa1->start_state, nfa2->start_state, MERGE_OR);
+  /* Step 2: add nfa2.accept_state to nfa1 */
+  nfa1->accept_state.insert(nfa2->accept_state.begin(), nfa2->accept_state.end());
+  /* Step 3: add nfa2.all_state to nfa1 and Chang state_no*/
+  for (auto it=nfa2->all_state.begin(); it!=nfa2->all_state.end(); ++it) {
+    (*it)->SetStateNum((*it)->GetStateNum() + nfa1->next_state_no);
+    nfa1->all_state.insert(*it);
+  }
+  nfa1->next_state_no += nfa2->next_state_no;
+  nfa2->next_state_no = nfa1->next_state_no;
 }

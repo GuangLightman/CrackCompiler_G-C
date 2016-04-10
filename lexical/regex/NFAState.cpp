@@ -89,11 +89,15 @@ void NFAState::PrintStateInfo() {
   }
 }
 
-void merge_state(state_t st1, state_t st2) {
+void merge_state(state_t st1, state_t st2, bool relation_is_or) {
   /* mrege st2 to st1, state_no is equal to st1 */
   if (!st1 || !st2) return;
   // is_accepting
-  st1->is_accepting = st1->is_accepting && st2->is_accepting;
+  if (relation_is_or) {
+    st1->is_accepting = st1->is_accepting || st2->is_accepting;
+  } else {
+    st1->is_accepting = st1->is_accepting && st2->is_accepting;
+  }
   // outward_map
   for (auto it=st2->outward_map.begin(); it!=st2->outward_map.end(); ++it) {
     char input = it->first;

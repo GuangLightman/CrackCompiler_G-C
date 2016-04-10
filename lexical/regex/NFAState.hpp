@@ -2,6 +2,8 @@
 #include <vector>
 
 #define state_t NFAState*
+#define MERGE_AND false
+#define MERGE_OR  true
 
 class NFAState {
 public:
@@ -17,7 +19,7 @@ public:
   const std::vector<state_t> GetAllOutwardEdge();
   const std::vector<state_t>& GetInwardEdge(char input);
   const std::vector<state_t> GetAllInwardEdge();
-  friend void merge_state(state_t st1, state_t st2);
+  friend void merge_state(state_t st1, state_t st2, bool relation_is_or);
   void PrintStateInfo();
 
 private:
