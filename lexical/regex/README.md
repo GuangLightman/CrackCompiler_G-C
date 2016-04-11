@@ -2,8 +2,7 @@
 Apr. 8, 2016
 
 ## Overview
-Basic idea here is using [Thompson's construction](https://en.wikipedia.org/wiki/
-Thompson%27s_construction) to transform the regular expression into an equivalent
+Basic idea here is using [Thompson's construction](https://en.wikipedia.org/wiki/Thompson%27s_construction) to transform the regular expression into an equivalent
 NFA (nondeterministic finite automate) and then match string with that NFA. In
 reality, the NFA would be further transformed into a DFA and optimize it (minimize
 the state amount), but due the limited time I have, I would stop at the NFA stage.
